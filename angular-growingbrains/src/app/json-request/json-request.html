@@ -1,1 +1,6 @@
-<p>json-request works!</p>
+<h2>Please enter a prompt:</h2>
+<div>
+    <input type="text" #myInput placeholder="Enter text">
+    <button (click)="submitValue(myInput.value)">Enter Prompt</button>
+</div>
+<div>{{ promptResponse }}</div>

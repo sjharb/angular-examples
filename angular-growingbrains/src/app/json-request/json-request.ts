@@ -1,8 +1,21 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { inject } from "@angular/core";
 import { JsonRequestService } from '../jsonRequest/json-request-service';
+import { switchMap } from 'rxjs/operators';
+
+interface RequestData {
+  model: string;
+  prompt: string;
+  stream: boolean;
+}
+
+interface ResponseData {
+  model: string;
+  created_at: string;
+  response: string,
+  done: string
+}
 
 @Component({
   standalone: true,
@@ -11,38 +24,90 @@ import { JsonRequestService } from '../jsonRequest/json-request-service';
   templateUrl: './json-request.html',
   styleUrl: './json-request.css'
 })
-
-// interface MyData {
-//       id: number;
-//       name: string;
-//     }
-
-// @Injectable({
-//   providedIn: 'root'
-// })
 export class JsonRequest {
-  //constructor(private jsonRequestService: JsonRequestService)
   private jsonRequestService = inject(JsonRequestService);
-  //   constructor(private http: HttpClient) {}
+  public promptResponse: string = '';
+  //inputPrompt = input<string>();  
+  inputValue: string = '';
 
-  //   getData(): Observable<MyData[]> {
-  //       return this.http.get<MyData[]>('https://api.example.com/data');
-  //     }
+  // static readonly requestData: RequestData = {
+  //   model: "deepseek-r1:latest",
+  //   //prompt: "What color is grass?",
+  //   prompt: "hello?",
+  //   stream: false
+  // };
+  ngOnInit() {
+    console.log("ngOnInit");
+    // const requestData: RequestData = {
+    //     model: "deepseek-r1:latest",
+    //     prompt: "What color is grass?",
+    //   };
 
-  //     sendData(data: any): Observable<any> {
-  //       return this.http.post('https://api.example.com/submit', data);
-  //     }
+    // this.jsonRequestService.sendPrompt(JsonRequest.requestData).subscribe(
+    //   //value => console.log(value),
+    // );
 
-  //     ngOnInit() {
-  //   this.getData().subscribe(
-  //     data => {
-  //       console.log('Received data:', data);
+    //const myObservable = this.jsonRequestService.sendData(JsonRequest.requestData);
+    //console.log(this.jsonRequestService.sendData(JsonRequest.requestData));
+
+    //this.submitForm(JsonRequest.requestData);
+
+    // const myObservable<ResponseData> = this.jsonRequestService.sendDataAndReceiveUpdates(JsonRequest.requestData);
+    // console.log("Observable = " + myObservable.response);
+    //this.promptResponse = '';
+
+    //his.inputPrompt = input.required<string>();
+
+    //this.submitForm(JsonRequest.requestData);    
+
+
+  }
+
+  submitValue(promptValue: string) {
+    let requestData: RequestData = {
+      model: "deepseek-r1:latest",
+      //prompt: "What color is grass?",
+      prompt: promptValue,
+      stream: false
+    };
+    //requestData.prompt = promptValue;
+    this.submitForm(requestData)
+
+    console.log('Prompt Value:', promptValue);
+  }
+
+  // submitForm(formData: any) {
+  //   this.jsonRequestService.postData(formData).subscribe({
+  //     next: (response) => {
+  //       console.log('Data posted successfully:', response);
+  //       // Process the received data here
   //     },
-  //     error => {
-  //       console.error('Error fetching data:', error);
+  //     error: (error) => {
+  //       console.error('Error posting data:', error);
+  //       // Handle errors here
   //     }
-  //   );
+  //   });
   // }
+
+  // submitPrompt(formData: any) {
+  //   // let myObservable = this.jsonRequestService.sendData(formData);
+  //   // this.promptResponse = myObservable.response;
+  //   let myObservable = new Observable<RequestData>(observer => {
+  //   sendData(() => observer.next(new Date().toString()), 1000);
+  // });
+  // }
+
+  submitForm(promptValue: RequestData) {
+    this.promptResponse = '...';
+    this.jsonRequestService.sendData(promptValue).subscribe(responseData => {
+      this.promptResponse = responseData.response;
+      console.log(responseData.response);
+    });
+  }
+
+  // let myObservable = this.jsonRequestService.sendData(JsonRequest.requestData);
+  // promptResponse = myObservable[response];
+  //}
 }
 
 
