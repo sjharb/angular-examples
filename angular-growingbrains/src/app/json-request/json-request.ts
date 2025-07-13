@@ -98,7 +98,7 @@ export class JsonRequest {
   // }
 
   submitForm(promptValue: RequestData) {
-    this.promptResponse = '...';
+    this.promptResponse = 'thinking...';
     this.jsonRequestService.sendData(promptValue).subscribe(responseData => {
       this.promptResponse = responseData.response;
       console.log(responseData.response);
