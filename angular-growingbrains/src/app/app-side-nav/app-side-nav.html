@@ -1,0 +1,16 @@
+<mat-sidenav-container class="nav-container">
+    <mat-sidenav class="side-pane" #sidenav mode="side" [(opened)]="opened" (opened)="sideNavOpened()"
+                (closed)="sideNavClosed()">
+        <p><button matButton (click)="sidenav.toggle()">{{sideNavOptionsButtonText}}</button></p>
+        <mat-form-field class="side-nav-llm-address-field">
+            <mat-label>LLM Server Address</mat-label>
+            <input matInput #myInput placeholder="ex. http://localhost:11434" value="http://31.97.100.201:11434/" (keyup.enter)="submitAddressValue(myInput.value)">
+        </mat-form-field>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <!--<p><mat-checkbox [(ngModel)]="opened">sidenav.opened</mat-checkbox></p>-->
+      <p><button matButton (click)="sidenav.toggle()" [disabled]="isNavButtonDisabled">{{mainOptionsButtonText}}</button></p>
+      <app-json-request></app-json-request>
+    </mat-sidenav-content>
+</mat-sidenav-container>

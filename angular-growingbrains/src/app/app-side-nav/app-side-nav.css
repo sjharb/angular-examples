@@ -1,0 +1,30 @@
+.nav-container {
+    background-color: aliceblue;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.side-pane {
+    background-image: linear-gradient(to left, rgba(89, 104, 117, 0.904), rgba(191, 204, 216, 0.904));
+}
+
+.main-content {
+    /* background-image: linear-gradient(white, blue); */
+    /* background-image: linear-gradient(to right, red , yellow); */
+    /* background-image: linear-gradient(to right, rgba(83, 148, 209, 0.904), rgb(37, 154, 184)); */
+}
+
+.nav-events {
+    width: 500px;
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #555;
+}
+
+.side-nav-llm-address-field {
+    width: 300px;
+    /* height: 90px; */
+}

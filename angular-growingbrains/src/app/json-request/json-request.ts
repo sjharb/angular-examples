@@ -1,8 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, ComponentRef, createComponent, inject, Input, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JsonRequestService } from '../jsonRequest/json-request-service';
+import { JsonRequestService } from '../json-request-service/json-request-service';
 import { switchMap } from 'rxjs/operators';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 interface RequestData {
   model: string;
@@ -20,15 +23,20 @@ interface ResponseData {
 @Component({
   standalone: true,
   selector: 'app-json-request',
-  imports: [],
+  imports: [MatInputModule],
   templateUrl: './json-request.html',
   styleUrl: './json-request.css'
 })
 export class JsonRequest {
+
   private jsonRequestService = inject(JsonRequestService);
-  public promptResponse: string = '';
+  //public promptResponse: string = '';
+  dynamicComonent = ComponentRef;
+  //promptResponse = signal<string[]>([]);
+  promptResponse = signal<string>('');
   //inputPrompt = input<string>();  
   inputValue: string = '';
+  statusMessage: string | null = 'Waiting for a prompt...';
 
   // static readonly requestData: RequestData = {
   //   model: "deepseek-r1:latest",
@@ -98,12 +106,41 @@ export class JsonRequest {
   // }
 
   submitForm(promptValue: RequestData) {
-    this.promptResponse = 'thinking...';
-    this.jsonRequestService.sendData(promptValue).subscribe(responseData => {
-      this.promptResponse = responseData.response;
-      console.log(responseData.response);
+    this.statusMessage = 'Thinking...';
+    //this.promptResponse.update(currentPrompts => [...currentPrompts, "Prompt: '" + promptValue.prompt + "'\n"]);
+    //this.promptResponse.set("Prompt:\n'" + promptValue.prompt + "'\n");
+    this.promptResponse.update(currentPrompts => currentPrompts + "Prompt:\n'" + promptValue.prompt + "'\n");
+    this.jsonRequestService.sendData(promptValue).subscribe({
+      next: (responseData) => {
+        //this.promptResponse.set(responseData.response);
+        //this.promptResponse.update(currentPrompts => [...currentPrompts, responseData.response + "\n"]);
+        //this.promptResponse.set("Response:\n'" + responseData.response + "'\n");
+        this.promptResponse.update(currentPrompts => currentPrompts + "\n'" + responseData.response + "'\n");
+
+        console.log(responseData.response);
+        this.statusMessage = 'Waiting for another prompt...';
+      },
+      error: (error) => {
+        console.error('Error creating item:', error);
+        this.statusMessage = error.message;
+      }
     });
   }
+
+  clearResponseText() {
+    //this.promptResponse.set([]);
+    this.promptResponse.set('');
+  }
+
+  // async addComponent() {
+  //   class RootComponent {}
+  //   const applicationRef = await bootstrapApplication(RootComponent);
+  //   const hostElement = document.getElementById('dynamicComonent');
+  //   const environmentInjector = applicationRef.injector;
+  //   const componentRef = createComponent(JsonRequest, {hostElement, environmentInjector});
+  //   applicationRef.attachView(componentRef.hostView);
+  //   componentRef.changeDetectorRef.detectChanges();
+  // }
 
   // let myObservable = this.jsonRequestService.sendData(JsonRequest.requestData);
   // promptResponse = myObservable[response];

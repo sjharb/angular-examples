@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { interval, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { interval, Observable, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 interface MyData {
   id: number;
@@ -41,7 +41,23 @@ export class JsonRequestService {
   sendData(data: RequestData): Observable<ResponseData> {
     //return this.http.post<ResponseData>('http://31.97.100.201:11434/', data);
     //http://31.97.100.201:11434/api/generate
-    return this.http.post<ResponseData>('http://31.97.100.201:11434/api/generate', data);
+    return this.http.post<ResponseData>('http://31.97.100.201:11434/api/generate', data).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error occurred. Handle it accordingly.
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      errorMessage = `Server returned code: ${error.status}, error message: ${error.message}`;
+    }
+    console.error(errorMessage); // Log the error for debugging
+    return throwError(() => new Error(errorMessage)); // Re-throw it as an RxJS error
   }
 
   postData(data: any): Observable<any> {
