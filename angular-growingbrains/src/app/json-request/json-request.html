@@ -8,9 +8,12 @@
             <input matInput #myInput placeholder="What type of LLM are you?" value="" (keyup.enter)="submitValue(myInput.value)">
         </mat-form-field>
         <!--<input type="text" #myInput placeholder="Enter Prompt Text" (keyup.enter)="submitValue(myInput.value)">-->
-        <div class="prompt-submit-button"><button (click)="submitValue(myInput.value)">Send Prompt</button></div>
+        <div class="prompt-submit-button">
+            <button (click)="submitValue(myInput.value)">Send Prompt</button>
+        </div>
     </div>
-    <div class="response-container"><pre><samp>{{ promptResponse() }}</samp></pre></div>
+    <!-- <div class="response-container-old"><pre><samp>{{ promptResponse() }}</samp></pre></div> -->
+    <div #responseContainer class="response-container"></div>
     <div class="response-clear-button"><button (click)="clearResponseText()">Clear Prompt Response</button></div>
 </div>
 

@@ -25,9 +25,17 @@
 
     <mat-sidenav-content class="main-content">
       <!--<p><mat-checkbox [(ngModel)]="opened">sidenav.opened</mat-checkbox></p>-->
-      <p>
-        <button matButton (click)="sidenav.toggle()" [disabled]="isNavButtonDisabled" class="side-nav-options-button">{{mainOptionsButtonText}}</button>
-      </p>
-      <app-json-request [selectedLlmModel]="selectedLlmModel"></app-json-request>
+        
+        <!-- <button matFab extended [class]="themeService.theme" class="darkModeButton" (click)="toggleTheme()">
+            <mat-icon>{{darkModeIconName()}}</mat-icon>
+            {{ themeService.theme }}
+        </button> -->
+        <app-json-request [selectedLlmModel]="selectedLlmModel"></app-json-request>
+        <div class="options-button-flex-container">
+            <button matMiniFab aria-label="Open Options" (click)="sidenav.toggle()" [disabled]="isNavButtonDisabled" [hidden]="isNavButtonDisabled" class="side-nav-options-button">
+                <mat-icon>{{mainOptionsButtonIconName}}</mat-icon>
+                <!-- {{mainOptionsButtonText}} -->
+            </button>
+        </div>  
     </mat-sidenav-content>
 </mat-sidenav-container>

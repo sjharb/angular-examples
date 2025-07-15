@@ -44,7 +44,24 @@
 .side-nav-options-button {
     /* padding-left: 5%;
     padding-top:5%; */
-    margin-bottom:5%;
+    /* margin-bottom:5%; */
+    /* height: 500px; */
+    width: 30px;
+    height: 40px;
+    flex-grow: 1; /* Allows the button to grow and fill available space */
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.side-nav-options-button:hover {
+  /* Styles applied on hover */
+  background-color: rgb(126, 126, 126);
+  cursor: pointer;
+}
+
+.options-button-flex-container {
+    display: flex;
+    flex-direction: column; /* Or row, depending on your layout */
+    height: 100vh; /* Example: fill viewport height */
 }
 
 /* div.dark {
