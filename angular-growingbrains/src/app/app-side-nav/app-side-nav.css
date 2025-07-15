@@ -1,5 +1,5 @@
 .nav-container {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     position: absolute;
     top: 0;
     bottom: 0;
@@ -26,5 +26,43 @@
 
 .side-nav-llm-address-field {
     width: 300px;
+    padding-left: 5%;
     /* height: 90px; */
 }
+
+.side-nav-llm-model-options {
+    width: 300px;
+    padding-left: 5%;
+}
+
+.side-nav-light-dark-button {
+    width: 300px;
+    padding-left: 5%;
+    /* text-align:center; */
+}
+
+.side-nav-options-button {
+    /* padding-left: 5%;
+    padding-top:5%; */
+    margin-bottom:5%;
+}
+
+/* div.dark {
+    background-color: black;
+    color: white;
+}
+
+div.light {
+    background-color: white;
+    color: black;
+}
+
+p.dark {
+    background-color: black;
+    color:white;
+}
+
+p.light {
+    background-color: white;
+    color:black;
+} */

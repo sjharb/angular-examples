@@ -1,3 +1,4 @@
+
 .black-white-gradient-background-container {
     background-image: url('../assets/images/app-background-container-gradient-bw.jpg'); /* Adjust path as needed */
     background-size: cover; /* Optional: Adjust image sizing */
@@ -25,3 +26,23 @@
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
+
+/* div.dark {
+    background-color: black;
+    color: white;
+}
+
+div.light {
+    background-color: white;
+    color: black;
+}
+
+p.dark {
+    background-color: black;
+    color:green;
+}
+
+p.light {
+    background-color: white;
+    color:blue;
+} */

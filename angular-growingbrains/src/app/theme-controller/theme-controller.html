@@ -1,0 +1,10 @@
+<!-- <button [class]="themeService.theme" (click)="toggleTheme()">
+    {{ themeService.theme }}
+</button> -->
+
+<div class="darkModeButton">
+<button matFab extended [class]="themeService.theme" class="darkModeButton" (click)="toggleTheme()">
+    <mat-icon>{{darkModeIconName()}}</mat-icon>
+    {{ themeService.theme }}
+</button>
+</div>

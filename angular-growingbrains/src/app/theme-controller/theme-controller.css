@@ -1,0 +1,29 @@
+:root {
+    padding: 5%;
+    margin: 5%;
+}
+
+/* div.dark {
+    background-color: black;
+    color: white;
+}
+
+div.light {
+    background-color: white;
+    color: black;
+}
+
+p.dark {
+    background-color: black;
+    color:white;
+}
+
+p.light {
+    background-color: white;
+    color:black;
+} */
+
+.darkModeButton {
+    --mdc-protected-button-label-text-color: red;
+    --mdc-protected-button-container-color: blue;
+}

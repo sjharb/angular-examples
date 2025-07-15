@@ -1,16 +1,33 @@
-<mat-sidenav-container class="nav-container">
+<!-- <mat-sidenav-container class="nav-container" [class]="currentTheme"> -->
+<mat-sidenav-container [class]="themeService.theme" class="nav-container">
     <mat-sidenav class="side-pane" #sidenav mode="side" [(opened)]="opened" (opened)="sideNavOpened()"
                 (closed)="sideNavClosed()">
         <p><button matButton (click)="sidenav.toggle()">{{sideNavOptionsButtonText}}</button></p>
+        <!-- <app-theme-controller (currentThemeEvent)="currentThemeChanged($event)"></app-theme-controller> -->
+        <div class="side-nav-light-dark-button">
+            <app-theme-controller></app-theme-controller>
+        </div>
+        <br>
         <mat-form-field class="side-nav-llm-address-field">
             <mat-label>LLM Server Address</mat-label>
             <input matInput #myInput placeholder="ex. http://localhost:11434" value="http://31.97.100.201:11434/" (keyup.enter)="submitAddressValue(myInput.value)">
         </mat-form-field>
+        <mat-form-field class="side-nav-llm-model-options">
+            <mat-label>Select an LLM Model</mat-label>
+            <mat-select [(value)]="selectedLlmModel" #listLlmModels>
+                @for (llmModel of llmModels; track llmModel) {
+                    <mat-option value="{{llmModel}}">{{ llmModel }}</mat-option>
+            }
+            </mat-select>
+        </mat-form-field>
+        
     </mat-sidenav>
 
     <mat-sidenav-content class="main-content">
       <!--<p><mat-checkbox [(ngModel)]="opened">sidenav.opened</mat-checkbox></p>-->
-      <p><button matButton (click)="sidenav.toggle()" [disabled]="isNavButtonDisabled">{{mainOptionsButtonText}}</button></p>
-      <app-json-request></app-json-request>
+      <p>
+        <button matButton (click)="sidenav.toggle()" [disabled]="isNavButtonDisabled" class="side-nav-options-button">{{mainOptionsButtonText}}</button>
+      </p>
+      <app-json-request [selectedLlmModel]="selectedLlmModel"></app-json-request>
     </mat-sidenav-content>
 </mat-sidenav-container>

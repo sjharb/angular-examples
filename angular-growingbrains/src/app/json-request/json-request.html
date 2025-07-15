@@ -1,14 +1,16 @@
-<p class="status-label">Status:</p>
-<div class="status-container">{{statusMessage}}</div>
-<h2 class="center-text">Please enter a prompt:</h2>
-<div class="prompt-container">
-    <mat-form-field class="prompt-form-field">
-        <mat-label>Enter Prompt Text</mat-label>
-        <input matInput #myInput placeholder="What type of LLM are you?" value="" (keyup.enter)="submitValue(myInput.value)">
-    </mat-form-field>
-    <!--<input type="text" #myInput placeholder="Enter Prompt Text" (keyup.enter)="submitValue(myInput.value)">-->
-    <div class="prompt-submit-button"><button (click)="submitValue(myInput.value)">Send Prompt</button></div>
+<div [class]="themeService.theme" class="json-request-container">
+    <p class="status-label">Status:</p>
+    <div class="status-container">{{statusMessage}}</div>
+    <h2 class="center-text">Please enter a prompt:</h2>
+    <div class="prompt-container">
+        <mat-form-field class="prompt-form-field">
+            <mat-label>Enter Prompt Text</mat-label>
+            <input matInput #myInput placeholder="What type of LLM are you?" value="" (keyup.enter)="submitValue(myInput.value)">
+        </mat-form-field>
+        <!--<input type="text" #myInput placeholder="Enter Prompt Text" (keyup.enter)="submitValue(myInput.value)">-->
+        <div class="prompt-submit-button"><button (click)="submitValue(myInput.value)">Send Prompt</button></div>
+    </div>
+    <div class="response-container"><pre><samp>{{ promptResponse() }}</samp></pre></div>
+    <div class="response-clear-button"><button (click)="clearResponseText()">Clear Prompt Response</button></div>
 </div>
-<div class="response-container"><pre><samp>{{ promptResponse() }}</samp></pre></div>
-<div class="response-clear-button"><button (click)="clearResponseText()">Clear Prompt Response</button></div>
 

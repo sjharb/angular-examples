@@ -1,3 +1,12 @@
+.json-request-container {
+    /* background-color: aliceblue; */
+    position: absolute;
+    top: 5%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 .scrollable-container {
     height: 200px;
     overflow-y: scroll;
@@ -62,3 +71,21 @@
 .center-text {
     text-align:center;
 }
+
+/* div.dark {
+    background-color: black;
+    color: white;
+}
+
+div.light {
+    background-color: white;
+    color: black;
+}
+
+p.dark {
+    color:green;
+}
+
+p.light {
+    color:blue;
+} */

@@ -1,24 +1,26 @@
-import { Component, ComponentRef, createComponent, inject, Input, input, signal } from '@angular/core';
+import { Component, ComponentRef, createComponent, effect, inject, Input, input, signal, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JsonRequestService } from '../json-request-service/json-request-service';
+import { JsonRequestService, RequestData, ResponseData, MessageData, LlmModels } from '../json-request-service/json-request-service';
 import { switchMap } from 'rxjs/operators';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ThemeService } from '../theme-service/theme-service';
 
-interface RequestData {
-  model: string;
-  prompt: string;
-  stream: boolean;
-}
+// interface RequestData {
+//   model: string;
+//   prompt: string;
+//   messages: string[];
+//   stream: boolean;
+// }
 
-interface ResponseData {
-  model: string;
-  created_at: string;
-  response: string,
-  done: string
-}
+// interface ResponseData {
+//   model: string;
+//   created_at: string;
+//   response: string,
+//   done: string
+// }
 
 @Component({
   standalone: true,
@@ -28,8 +30,36 @@ interface ResponseData {
   styleUrl: './json-request.css'
 })
 export class JsonRequest {
+  modelValue: string = "";
 
   private jsonRequestService = inject(JsonRequestService);
+
+  @Input({ required: true }) selectedLlmModel!: string;
+
+  themeService = inject(ThemeService);
+
+  // constructor() {
+  //   effect(() => {
+  //     console.log(`json-request.ts: The themeServiceTheme is: ${this.themeService.themeServiceTheme()}`);
+  //   });
+  // }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("ngOnChanges: this.selectedLlmModel = " + this.selectedLlmModel);
+    this.modelValue = this.selectedLlmModel;
+    if (this.selectedLlmModel === undefined) {
+      this.modelValue = LlmModels[0];
+    } else {
+      this.modelValue = this.selectedLlmModel;
+    }
+    
+    console.log("ngOnChanges: this.modelValue = " + this.modelValue);
+  }
+
+
+  //chatMesages: string[] = []
+  //chatMesages: Map<string, string>[] = [];
+  chatMesages: Array<MessageData> = [];//MessageData[] = [];
   //public promptResponse: string = '';
   dynamicComonent = ComponentRef;
   //promptResponse = signal<string[]>([]);
@@ -72,16 +102,27 @@ export class JsonRequest {
   }
 
   submitValue(promptValue: string) {
+    let messageToAdd: MessageData = {
+      role: "user",
+      content: promptValue
+    }
+
+    this.chatMesages.push(messageToAdd);
     let requestData: RequestData = {
-      model: "deepseek-r1:latest",
+      model: this.modelValue,//"deepseek-r1:latest",
       //prompt: "What color is grass?",
       prompt: promptValue,
+      messages: this.chatMesages,
       stream: false
     };
+
+    console.log('Request Data:', requestData);
+
     //requestData.prompt = promptValue;
     this.submitForm(requestData)
 
     console.log('Prompt Value:', promptValue);
+    console.log('Model Value:', this.modelValue);
   }
 
   // submitForm(formData: any) {
@@ -105,18 +146,20 @@ export class JsonRequest {
   // });
   // }
 
-  submitForm(promptValue: RequestData) {
+  submitForm(requestData: RequestData) {
     this.statusMessage = 'Thinking...';
     //this.promptResponse.update(currentPrompts => [...currentPrompts, "Prompt: '" + promptValue.prompt + "'\n"]);
     //this.promptResponse.set("Prompt:\n'" + promptValue.prompt + "'\n");
-    this.promptResponse.update(currentPrompts => currentPrompts + "Prompt:\n'" + promptValue.prompt + "'\n");
-    this.jsonRequestService.sendData(promptValue).subscribe({
-      next: (responseData) => {
+    this.promptResponse.update(currentPrompts => currentPrompts + "Prompt:\n'" + requestData.prompt + "'\n");
+    this.jsonRequestService.sendData(requestData).subscribe({
+      next: (responseData: ResponseData) => {
+        this.chatMesages.push(responseData.message);
         //this.promptResponse.set(responseData.response);
         //this.promptResponse.update(currentPrompts => [...currentPrompts, responseData.response + "\n"]);
         //this.promptResponse.set("Response:\n'" + responseData.response + "'\n");
-        this.promptResponse.update(currentPrompts => currentPrompts + "\n'" + responseData.response + "'\n");
+        this.promptResponse.update(currentPrompts => currentPrompts + "\n'" + responseData.message.content + "'\n");
 
+        console.log(responseData);
         console.log(responseData.response);
         this.statusMessage = 'Waiting for another prompt...';
       },
