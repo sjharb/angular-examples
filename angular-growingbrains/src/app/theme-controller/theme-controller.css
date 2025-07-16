@@ -24,6 +24,5 @@ p.light {
 } */
 
 .darkModeButton {
-    --mdc-protected-button-label-text-color: red;
-    --mdc-protected-button-container-color: blue;
+    color: rgba(50, 50, 50, 255);
 }

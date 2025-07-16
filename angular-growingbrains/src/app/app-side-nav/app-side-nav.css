@@ -9,6 +9,9 @@
 
 .side-pane {
     background-image: linear-gradient(to left, rgba(89, 104, 117, 0.904), rgba(191, 204, 216, 0.904));
+    background-color: black;
+    border-radius: 0px;
+    
 }
 
 .main-content {
@@ -46,14 +49,19 @@
     padding-top:5%; */
     /* margin-bottom:5%; */
     /* height: 500px; */
-    width: 30px;
-    height: 40px;
+    width: 20px;
+    /* height: 40px; */
     flex-grow: 1; /* Allows the button to grow and fill available space */
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(50, 50, 50, 255);
+    /* visibility:hidden; */
+    border-radius: 0px;
 }
 
 .side-nav-options-button:hover {
   /* Styles applied on hover */
+  width: 40px;
+  /* height: 40px; */
   background-color: rgb(126, 126, 126);
   cursor: pointer;
 }
